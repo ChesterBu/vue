@@ -30,10 +30,17 @@ export function setActiveInstance(vm: Component) {
 }
 
 export function initLifecycle (vm: Component) {
+  /**
+   * $options即用户new Vue 传入的参数以及和Vue本身参数merge后的值
+   */
   const options = vm.$options
-
+  // 子组件注册时，会把父组件的实例挂载到自身选项的parent上
   // locate first non-abstract parent
   let parent = options.parent
+  // 如果是子组件，并且该组件不是抽象组件时，将该组件的实例添加到父组件的$parent属性上，
+  // 如果父组件是抽象组件，则一直往上层寻找，直到该父级组件不是抽象组件，
+  // 并将，将该组件的实例添加到父组件的$parent属性
+  // 抽象组件: keep-alive, slot
   if (parent && !options.abstract) {
     while (parent.$options.abstract && parent.$parent) {
       parent = parent.$parent
@@ -176,12 +183,12 @@ export function mountComponent (
       const endTag = `vue-perf-end:${id}`
 
       mark(startTag)
-      const vnode = vm._render()
+      const vnode = vm._render()  // 生成一个Virtual Dom tree
       mark(endTag)
       measure(`vue ${name} render`, startTag, endTag)
 
       mark(startTag)
-      vm._update(vnode, hydrating)
+      vm._update(vnode, hydrating) // 将Virtual Dom tree转化为真实的DOM节点
       mark(endTag)
       measure(`vue ${name} patch`, startTag, endTag)
     }
@@ -194,6 +201,7 @@ export function mountComponent (
   // we set this to vm._watcher inside the watcher's constructor
   // since the watcher's initial patch may call $forceUpdate (e.g. inside child
   // component's mounted hook), which relies on vm._watcher being already defined
+  // updateComponent初始化时会执行一次，vm实例检测到数据发生变化时也会执行
   new Watcher(vm, updateComponent, noop, {
     before () {
       if (vm._isMounted && !vm._isDestroyed) {

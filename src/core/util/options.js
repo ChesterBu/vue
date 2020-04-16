@@ -141,6 +141,7 @@ strats.data = function (
 }
 
 /**
+ * 父级优先
  * Hooks and props are merged as arrays.
  */
 function mergeHook (

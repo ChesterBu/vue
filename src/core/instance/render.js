@@ -28,10 +28,14 @@ export function initRender (vm: Component) {
   // so that we get proper render context inside it.
   // args order: tag, data, children, normalizationType, alwaysNormalize
   // internal version is used by render functions compiled from templates
+  // template内部编译成render函数
   vm._c = (a, b, c, d) => createElement(vm, a, b, c, d, false)
   // normalization is always applied for the public version, used in
   // user-written render functions.
+  // vm.$createElement是手写render函数时调用的方法
   vm.$createElement = (a, b, c, d) => createElement(vm, a, b, c, d, true)
+  // 两者的唯一区别仅仅是最后一个参数的不同。通过模板生成的render方法可以保证子节点都是Vnode，
+  // 而手写的render需要一些检验和转换
 
   // $attrs & $listeners are exposed for easier HOC creation.
   // they need to be reactive so that HOCs using them are always updated

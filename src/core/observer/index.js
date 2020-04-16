@@ -152,11 +152,24 @@ export function defineReactive (
   if ((!getter || setter) && arguments.length === 2) {
     val = obj[key]
   }
-
+  // 这一部分的逻辑是针对深层次的对象，如果对象的属性是一个对象，则会递归调用实例化Observe类，让其属性值也转换为响应式对
   let childOb = !shallow && observe(val)
   Object.defineProperty(obj, key, {
     enumerable: true,
     configurable: true,
+    // 当data中属性值被访问时，会被getter函数拦截，根据我们旧有的知识体系可以知道，
+    // 实例挂载前会创建一个渲染watcher。
+    // new Watcher(vm, updateComponent, noop, {
+    //   before: function before () {
+    //     if (vm._isMounted && !vm._isDestroyed) {
+    //       callHook(vm, 'beforeUpdate');
+    //     }
+    //   }
+    // }, true /* isRenderWatcher */);
+    // updateComponent的逻辑会执行实例的挂载，在这个过程中，
+    // 模板会被优先解析为render函数，而render函数转换成Vnode时，
+    // 会访问到定义的data数据，这个时候会触发gettter进行依赖收集。
+    // 而此时数据收集的依赖就是这个渲染watcher本身,Dep.target就指向这个watch
     get: function reactiveGetter () {
       const value = getter ? getter.call(obj) : val
       if (Dep.target) {
@@ -173,6 +186,7 @@ export function defineReactive (
     set: function reactiveSetter (newVal) {
       const value = getter ? getter.call(obj) : val
       /* eslint-disable no-self-compare */
+      // 新值和旧值相等时，跳出操作
       if (newVal === value || (newVal !== newVal && value !== value)) {
         return
       }

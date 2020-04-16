@@ -1,6 +1,6 @@
 /* global Vue */
 
-new Vue({    
+var vm =  new Vue({    
     el:".a",        
     name:"A",    
     components:{        

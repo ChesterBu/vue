@@ -33,6 +33,7 @@ function initVirtualComponent (options: Object = {}) {
     initInternalComponent(vm, options)
   } else {
     vm.$options = mergeOptions(
+      // 找父类
       resolveConstructorOptions(vm.constructor),
       options || {},
       vm
