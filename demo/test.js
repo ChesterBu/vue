@@ -1,19 +1,14 @@
 /* global Vue */
-
-var vm =  new Vue({    
-    el:".a",        
-    name:"A",    
-    components:{        
-        testb:{            
-            props:{                
-                childName:""
-            },            
-        template: '<p>父组件传入的 props 的值 {{childName}}</p>',
-        }
+var child = {
+    template: `<div class="child"><slot></slot></div>`,
+    mounted () {
+        window.child = this
+    }
+  }
+window.vm = new Vue({
+    el: '.a',
+    components: {
+        child
     },
-    data(){        
-        return {            
-            parentName:"我是父组件"
-        }
-    },
+    template: `<div id="app"><child>test</child></div>`
 })

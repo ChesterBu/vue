@@ -29,6 +29,7 @@ export function initMixin (Vue: Class<Component>) {
     // a flag to avoid this being observed
     vm._isVue = true
     // merge options
+    // 代表是子组件
     if (options && options._isComponent) {
       // optimize internal component instantiation
       // since dynamic options merging is pretty slow, and none of the
@@ -71,7 +72,8 @@ export function initMixin (Vue: Class<Component>) {
     }
   }
 }
-
+// 和父组件不同的是，子组件会调用initInternalComponent方法拿到父组件拥有的相关配置信息，
+// 并赋值给子组件自身的配置选项。
 export function initInternalComponent (vm: Component, options: InternalComponentOptions) {
   const opts = vm.$options = Object.create(vm.constructor.options)
   // doing this because it's faster than dynamic enumeration.
