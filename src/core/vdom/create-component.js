@@ -112,6 +112,7 @@ export function createComponent (
   const baseCtor = context.$options._base
 
   // plain options object: turn it into a constructor
+  // 如果选项的值是对象，则该组件是局部注册的组件
   if (isObject(Ctor)) {
     Ctor = baseCtor.extend(Ctor)
   }
