@@ -2,8 +2,12 @@
 var child = {
     template: `<div class="child"><slot></slot></div>`,
     props:['cd'],
+    created(){
+        console.log(1)
+    },
     mounted () {
         window.child = this
+        child.$emit('pop');
     }
 }
 Vue.component('hh',{
@@ -19,10 +23,18 @@ window.vm = new Vue({
     components: {
         child
     },
+    methods:{
+        dc(){
+            console.log(this, 1)
+        }
+    },
+    created(){
+        console.log(2)
+    },
     template: `<div id="app">
-                <child @pop="console.log(1)" :cd="cd">test</child>
-                <hh />
-                <div  @click="console.log(2)">2222</div>
+                <child @pop="dc" :cd="cd">test</child>
+                <hh  v-if="cd === 0"/>
+                <div  v-show="cd" @click="console.log(2)">2222</div>
               </div>`
 })
 
