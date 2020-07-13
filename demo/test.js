@@ -1,9 +1,12 @@
 /* global Vue */
 var child = {
-    template: `<div class="child"><slot></slot></div>`,
+    template: `<div class="child">111</div>`,
     props:['cd'],
     created(){
         console.log(1)
+    },
+    beforeUpdate (){
+        console.log('cd', this.cd)
     },
     mounted () {
         window.child = this
@@ -29,10 +32,13 @@ window.vm = new Vue({
         }
     },
     created(){
-        console.log(2)
+        console.log(2),
+        setTimeout(()=>{
+            this.cd = 33333
+        },2000)
     },
     template: `<div id="app">
-                <child @pop="dc" :cd="cd">test</child>
+                <child :cd="cd"></child>
                 <hh  v-if="cd === 0"/>
                 <div  v-show="cd" @click="console.log(2)">2222</div>
               </div>`
