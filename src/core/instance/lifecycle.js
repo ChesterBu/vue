@@ -221,11 +221,11 @@ export function mountComponent (
 }
 
 export function updateChildComponent (
-  vm: Component,
-  propsData: ?Object,
-  listeners: ?Object,
-  parentVnode: MountedComponentVNode,
-  renderChildren: ?Array<VNode>
+  vm: Component,  // old 
+  propsData: ?Object,   // new Props
+  listeners: ?Object,  // new listeners
+  parentVnode: MountedComponentVNode, // new parent vnode
+  renderChildren: ?Array<VNode>  // new children
 ) {
   if (process.env.NODE_ENV !== 'production') {
     isUpdatingChildComponent = true

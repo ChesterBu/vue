@@ -39,7 +39,7 @@ window.vm = new Vue({
     },
     template: `<div id="app">
                 <child :cd="cd"></child>
-                <hh  v-if="cd === 0"/>
+                <hh/>
                 <div  v-show="cd" @click="console.log(2)">2222</div>
               </div>`
 })

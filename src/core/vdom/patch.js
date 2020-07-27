@@ -542,6 +542,7 @@ export function createPatchFunction (backend) {
     let i
     const data = vnode.data
     if (isDef(data) && isDef(i = data.hook) && isDef(i = i.prepatch)) {
+      //prepatch 代表是个组件的情况执行prepatch来更新 
       i(oldVnode, vnode)
     }
 

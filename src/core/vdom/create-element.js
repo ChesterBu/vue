@@ -112,7 +112,7 @@ export function _createElement (
       // 子节点标签为注册过的组件标签名，则子组件Vnode的创建过程,
     } else if ((!data || !data.pre) && isDef(Ctor = resolveAsset(context.$options, 'components', tag))) {
       // component
-      // 局部注册的组件
+      // 局部注册的组件,全部注册的组件就在components的原型链上所以都能找到Ctor
       vnode = createComponent(Ctor, data, context, children, tag)
     } else {
       // unknown or unlisted namespaced elements
